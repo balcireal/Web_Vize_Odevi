@@ -1,0 +1,389 @@
+﻿@using FoodDelivery.MvcUI.Areas.Admin.Models
+
+@model List<CategoryItem>
+
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section customStyles{
+    <link rel="stylesheet" href="~/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+    <link rel="stylesheet" href="~/admin/plugins/sweetalert2/sweetalert2.css">
+}
+
+@section customScripts{
+    <script src="~/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="~/admin/plugins/sweetalert2/sweetalert2.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json',
+                },
+                order: [
+                    [2, 'desc']
+                ],
+                "columnDefs": [{
+                    "targets": 0,
+                    "orderable": false,
+                },
+                {
+                    "targets": 1,
+                    "orderable": false,
+                },
+                {
+                    "targets": 2,
+                    "orderable": true,
+                },
+                {
+                    "targets": 3,
+                    "orderable": true,
+                },
+                {
+                    "targets": 4,
+                    "orderable": false,
+                }
+                    ,
+                {
+                    "targets": 5,
+                    "orderable": false,
+                }],
+                "lengthChange": false,
+                "paging": false,
+                "buttons": ["excel", "pdf"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $("#btnSave").click(function () {
+                // NOT : Client'dan server a javascript kullanarak dosya transferi yapacaksınız, ilgili dosya verisini FormData isim javascript nesnesi içerisinde sunucuya transfer etmelisiniz. Transfer edilecek data, FormData nesnesi içerisine append edilerek eklenir.
+                // NOT : Client'dan server'a FormData ile veriyi taşırken ajax tablebine aş parametreler de eklenmelidir:
+                //contentType: false,
+                //processData: false,
+
+                var file = $("#fuCategoryPhoto").get(0).files[0];
+
+                var catName = $("#txtCategoryName").val();
+                var desc = $("#txtDescription").val();
+
+                var formData = new FormData();
+                formData.append("categoryPhoto", file);
+                formData.append("categoryName", catName);
+                formData.append("description", desc);
+
+                $.ajax({
+                    url: "/Admin/Category/Save",
+                    method: "post",
+                    datatype: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            Swal.fire({
+                                title: 'İşlem Başarılı',
+                                text: response.message,
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Tamam'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    //$("#txtCategoryName").val("");
+                                    //$("#txtDescription").val("");
+                                    //------------------------------------
+
+                                    // javascript ile html deki bir elemanın click olayını tetiklemek:
+                                    //$("#btnClear").trigger("click");
+                                    //-------------------------------------
+
+                                    // javascript ile sayfayı yenilemek :
+                                    //window.location.reload();
+
+                                    //------------------------------------------------
+
+                                    $("#btnClear").trigger("click");
+
+                                    $("a[href='#tab_2']").removeClass("active");
+                                    $("a[href='#tab_1']").addClass("active");
+
+                                    $("#tab_2").removeClass("active");
+                                    $("#tab_1").addClass("active");
+
+                                    // elemanın yaptığı kaydı html içindeki table a bir tr daha ekleyerek göster
+
+                                    $("#example1 tbody").append("<tr><td><img src='data:image/jpeg;base64," + response.categoryPicture + "' style='width:150px;' /></td><td><img src='" + response.picturePath + "' style='width:150px;' /></td><td>" + catName + "</td><td>" + desc + "</td><td>DÜZENLE</td><td><button type='button' class='btn btn-danger btnDelete' categoryid='" + response.categoryId + "'>SİL</button></td></tr>");
+
+                                }
+                            });
+                        }
+                        else {
+                            Swal.fire(
+                                'İşlem Başarısız',
+                                response.message,
+                                'error'
+                            )
+                        }
+                    }
+                })
+
+            });
+
+            $(".btnDelete").click(function () {
+
+                // $(this) --> bu olayı çalıştıran html elementidir
+                var categoryId = $(this).attr("categoryid");
+
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Silme işlemi geri alınamaz!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sil!',
+                    cancelButtonText: 'Vazgeç!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // sunucuya veriyi gönderip silinmesini sağlayacağız
+
+                        $.ajax({
+                            url: "/Admin/Category/Delete/" + categoryId,
+                            method: "post",
+                            datatype: "json",
+                            success: function (response) {
+                                if (response.isSuccess) {
+                                    Swal.fire('İşlem Başarılı', response.message, 'success')
+                                }
+                                else {
+                                    var errors = "";
+                                    for (var i = 0; i < response.errorMessages.length; i++) {
+                                        errors += response.errorMessages[i] + "<br />";
+                                    }
+
+                                    Swal.fire('İşlem Başarısız', response.message + "<br />" + errors, 'error')
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire('İşlem İptal Edildi', '', 'info')
+                    }
+                })
+            });
+
+            $(".btnEdit").click(function(){
+
+        var categoryId = $(this).attr("categoryid");
+
+        $.ajax({
+        url:"/Admin/Category/GetCategory/"+categoryId,
+        method:"post",
+        datatype:"json",
+        success:function(response){
+          $("#txtCategoryNameEdit").val(response.categoryName);
+          $("#txtDescriptionEdit").val(response.description);
+          $("#imgCategoryPhotoEdit").attr("src",response.picturePath);
+          $("#hfCategoryId").val(categoryId);
+
+          $("#exampleModal").modal("show");
+        }
+        });
+
+      });
+
+        });
+    </script>
+
+}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Kategori Yönetimi</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Liste</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Yeni</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>#</th>
+                                    <th>Kategori Adı</th>
+                                    <th>Açıklaması</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.CategoryPicture))
+                                            {
+                                                <img src='@($"data:image/jpg;base64,{item.CategoryPicture}")' style="width:250px;" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Admin/noimage.jpeg" style="width:150px;" />
+                                            }
+
+                                        </td>
+                                        <td>
+                                            <img src='@item.PicturePath' style="width:250px;" />
+                                        </td>
+                                        <td>
+                                            @item.CategoryName
+                                        </td>
+                                        <td>@item.Description</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning btnEdit" categoryid='@item.CategoryId'>
+                                                DÜZENLE
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btnDelete" categoryid='@item.CategoryId'>SİL</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>#</th>
+                                    <th>Kategori Adı</th>
+                                    <th>Açıklaması</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Yeni Kategori Kayıt Formu</h3>
+                            </div>
+                            <form>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Adı</label>
+                                        <input type="text" class="form-control" id="txtCategoryName" placeholder="Kategori Adı Giriniz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Açıklama</label>
+                                        <textarea id="txtDescription" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Resim</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="fuCategoryPhoto">
+                                                <label class="custom-file-label" for="exampleInputFile">Dosya Seçiniz</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                                </div>
+
+                                <button id="btnClear" type="reset" style="display:none;"></button>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+<div class="modal fade" data-backdrop="static" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Kategori Düzenleme Formu</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*Aşağıdaki hidden input içerisinde güncellenmek istenen kategorinin id si tutuluyor. btnEdit e tıklandığında hangi kategorinin güncelleneceği bu inputtan okunabilir.*@
+                    <input type="hidden" id="hfCategoryId" />
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Adı</label>
+                            <input type="text" class="form-control" id="txtCategoryNameEdit" placeholder="Kategori Adı Giriniz">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Açıklama</label>
+                            <textarea id="txtDescriptionEdit" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">Resim</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="fuCategoryPhotoEdit">
+                                    <label class="custom-file-label" for="exampleInputFile">Dosya Seçiniz</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kategori Resmi</label>
+                            <img id="imgCategoryPhotoEdit" />
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button id="btnEdit" type="button" class="btn btn-primary">Kaydet</button>
+                    </div>
+
+
+                    <button id="btnClearEdit" type="reset" style="display:none;"></button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,541 @@
+﻿@{
+    ViewData["Title"] = "Fast Food Delivery";
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+*@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Fast Food Delivery</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/user/css/bootstrap.min.css">
+    <!-- owl css -->
+    <link rel="stylesheet" href="~/user/css/owl.carousel.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/user/css/style.css">
+    <!-- responsive-->
+    <link rel="stylesheet" href="~/user/css/responsive.css">
+    <!-- awesome fontfamily -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
+</head>
+<!-- body -->
+
+<body class="main-layout">
+    <!-- loader  -->
+    <div class="loader_bg">
+        <div class="loader"><img src="/user/images/loading.gif" alt="" /></div>
+    </div>
+
+    <div class="wrapper">
+        <!-- end loader -->
+
+        <div class="sidebar">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+
+                <div id="dismiss">
+                    <i class="fa fa-arrow-left"></i>
+                </div>
+
+                <ul class="list-unstyled components">
+
+                    <li class="active">
+                            <a href="http://localhost:5175/">Ana Sayfa</a>
+                    </li>
+                    <li>
+                            <a href="http://localhost:5175/about/about">Hakkımızda</a>
+                    </li>
+                    <li>
+                        <a href="recipe.html">Ürünler</a>
+                    </li>
+                    <li>
+                            <a href="http://localhost:5175/admin">Admin Paneli</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">İletişim</a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+        <div id="content">
+            <!-- header -->
+            <header>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="full">
+                                    <a class="logo" href="index.html"><img src="/user/images/logoas.jpg" alt="#" width="100" height="150" /></a>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="full">
+                                <div class="right_header_info">
+                                    <ul>
+                                        <li class="dinone">Bize Ulaşın : <img style="margin-right: 15px;margin-left: 15px;" src="/user/images/phone_icon.png" alt="#"><a href="#">+90 212 359 18 00
+</a></li>
+                                        <li class="dinone"><img style="margin-right: 15px;" src="/user/images/mail_icon.png" alt="#"><a href="#">hizlisiparis@gmail.com</a></li>
+                                            <li class="dinone"><img style="margin-right: 15px;height: 21px;position: relative;top: -2px;" src="/user/images/location_icon.png" alt="#"><a href="https://www.google.com/maps/d/viewer?mid=1yxEevpkP6uSWO6LnmV02Hnt_GBY&hl=tr&ll=40.54943547816228%2C34.95579731606359&z=16" target="_blank">Çorum/Türkiye 19000</a></li>
+                                            <li class="button_user"><a class="button active" href="/userLogin/login">Giriş Yap</a><a class="button" href="https://vigovigo.com/kurye-olmak-istiyorum/" target="_blank">Kurye Ol</a></li>
+                                        <li><img style="margin-right: 15px;" src="/user/images/search_icon.png" alt="#"></li>
+                                        <li>
+                                            <button type="button" id="sidebarCollapse">
+                                                <img src="/user/images/menu_icon.png" alt="#">
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- end header -->
+            <!-- start slider section -->
+            <div class="slider_section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="full">
+                                <div id="main_slider" class="carousel vert slide" data-ride="carousel" data-interval="5000">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="slider_cont">
+                                                        <h3>Size en yakın<br>Restoranları keşfedin</h3>
+                                                        <p>En sıcak siparişler için bizi tercih et.</p>
+                                                            <a class="main_bt_border" href="https://getir.com/yemek/restoranlar/" target="_blank">Sipariş Ver</a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="slider_image full text_align_center">
+                                                        <img class="img-responsive" src="/user/images/burger_slide.png" alt="#" width="400" height="400" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="slider_cont">
+                                                        <h3>Discover Restaurants<br>That deliver near You</h3>
+                                                            <p>Choose us for the hottest orders.</p>
+                                                            <a class="main_bt_border" href="https://getir.com/yemek/restoranlar/" target="_blank">Order Now</a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 full text_align_center">
+                                                    <div class="slider_image">
+                                                            <img class="img-responsive" src="/user/images/burger_slide.png" alt="#" width="400" height="400" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+                                        <i class="fa fa-angle-up"></i>
+                                    </a>
+                                    <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end slider section -->
+            <!-- section -->
+            <section class="resip_section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="ourheading">
+                                <h2>Popüler Ürünler</h2>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="owl-carousel owl-theme">
+
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                <img src="/user/userImages/iskender.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>İskender</h3>
+                                                    <h4><span class="theme_color">₺</span>200</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/adana.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Adana Kebap</h3>
+                                                    <h4><span class="theme_color">₺</span>200</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                <img src="/user/userImages/antrikot.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Antrikot</h3>
+                                                    <h4><span class="theme_color">₺</span>450</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                <img src="/user/userImages/hamburger.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Hamburger</h3>
+                                                    <h4><span class="theme_color">₺</span>150</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/iskilipdolma.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>İskilip Dolması</h3>
+                                                    <h4><span class="theme_color">₺</span>300</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/kanat.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Tavuk Kanat</h3>
+                                                    <h4><span class="theme_color">₺</span>150</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/salata.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Mevsim Salata</h3>
+                                                <h4><span class="theme_color">$</span>90</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/sandvic.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Sandviç</h3>
+                                                    <h4><span class="theme_color">₺</span>60</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                <img src="/user/userImages/kahvalti.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Kahvaltı Tabağı</h3>
+                                                    <h4><span class="theme_color">₺</span>200</h4>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="product_blog_img">
+                                                    <img src="/user/userImages/patates.jpg" alt="#" />
+                                            </div>
+                                            <div class="product_blog_cont">
+                                                <h3>Patates Kızartması</h3>
+                                                    <h4><span class="theme_color">₺</span>50</h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="bg_bg">
+                <!-- about -->
+                <div class="about">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="title">
+                                    <i><img src="/user/images/title.png" alt="#" /></i>
+                                    <h2>Ürün Çeşitliliği</h2>
+                                    <span>
+                                        Anlaşmalı restoranlarımızın menülerindeki çeşitliliğe hayran kalacak, 
+                                            <br> damak zevkinize hitap eden yemekleri tadabileceksiniz.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                <div class="about_box">
+                                    <h3>En Başarılı Restoran</h3>
+                                    <p> Anlaşmalı olduğumuz İskilip Dolma Evi en çok sipariş oranıyla en başarılı restoran seçilmiştir  </p>
+                                        <a href="https://www.tripadvisor.com.tr/Restaurant_Review-g1936547-d12911383-Reviews-Iskilip_Dolma_Evi-Corum_Corum_Province.html" target="_blank">Yorumları Gör <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-10 col-sm-12 about_img_boxpdnt">
+                                <div class="about_img">
+                                    <figure><img src="/user/images/about-img.jpg" alt="#/"></figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end about -->
+                <!-- blog -->
+                <div class="blog">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="title">
+                                    <i><img src="/user/images/title.png" alt="#" /></i>
+                                    <h2>Anlaşmalı Olduğumuz Restoranlar</h2>
+                                        <span>Size özel olarak seçtiğimiz ve anlaşmalı olduğumuz restoranlarla lezzet dolu bir yolculuğa çıkın.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mar_bottom">
+                                <div class="blog_box">
+                                    <div class="blog_img_box">
+                                        <figure>
+                                            <img src="/user/userimages/dolmaevi.jpg" alt="#" />
+                                            <span>25 Ağustos 2023</span>
+                                        </figure>
+                                    </div>
+                                    <h3>İskilip Dolma Evi</h3>
+                                        
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mar_bottom">
+                                <div class="blog_box">
+                                    <div class="blog_img_box">
+                                        <figure>
+                                            <img src="/user/userImages/aspava.jpg" alt="#" />
+                                                <span>25 Ağustos 2023</span>
+                                        </figure>
+                                    </div>
+                                    <h3>Yıldız Aspava</h3>
+                                    <p> </p>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                                <div class="blog_box">
+                                    <div class="blog_img_box">
+                                        <figure>
+                                            <img src="/user/userImages/nezih.jpg" alt="#" />
+                                                <span>25 Ağustos 2023</span>
+                                        </figure>
+                                    </div>
+                                    <h3>Nezih Konya Mutfağı</h3>
+                                    <p> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end blog -->
+                <!-- Our Client -->
+                <div class="Client">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="title">
+                                    <i><img src="/user/images/title.png" alt="#" /></i>
+                                    <h2>Ayın Müşterisi Yorumu</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 offset-md-3">
+                                <div class="Client_box">
+                                    <img src="/user/userImages/sumeyye.jpg" alt="#" />
+                                    <h3>Ece Gündüz</h3>
+                                        <p>Sipariş verdiğimde her zaman yemeklerim en taze ve sıcak halde elime ulaşıyor. Kurye ekipleri son derece profesyonel ve hızlı bir şekilde teslimat yapıyorlar. Bu sayede aç kalmadan lezzetli yemeklerin tadını çıkarabiliyorum. Ayrıca, kullanıcı dostu bir mobil uygulama veya web sitesi sayesinde sipariş vermek oldukça kolay ve pratik. Yemek seçenekleri de oldukça geniş ve çeşitli, böylece her damak zevkine uygun bir şey bulmak mümkün. Hızlı teslimat ve sıcak yemekler sayesinde artık dışarıda yemek yeme ihtiyacını unuttum. Kesinlikle herkese tavsiye ederim!"</p>
+                                    <i><img src="/user/images/client_icon.png" alt="#" /></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end Our Client -->
+            </div>
+            <!-- footer -->
+            <fooetr>
+                <div class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class=" col-md-12">
+                                <h2>Sizi<strong class="white"> Arayalım!</strong></h2>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+
+                                <form class="main_form">
+                                    <div class="row">
+
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <input class="form-control" placeholder="Ad" type="text" name="Ad">
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <input class="form-control" placeholder="Mail" type="text" name="Mail">
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <input class="form-control" placeholder="Telefon" type="text" name="Telefon">
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                <textarea class="textarea" placeholder="Mesajınız" type="text" name="Mesajınız"></textarea>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                            <button class="send">Gönder</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                <div class="img-box">
+                                    <figure><img src="/user/images/img.jpg" alt="img" /></figure>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="footer_logo">
+                                        <a href="index.html"><img src="/user/images/logoas.jpg" alt="logo" /></a>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <ul class="lik">
+                                    <li class="active"> <a href="index.html">Ana Sayfa</a></li>
+                                        <li> <a href="http://localhost:5175/about/about">Hakkımızda</a></li>
+                                    <li> <a href="recipe.html">Ürünler</a></li>
+                                        <li> <a href="http://localhost:5175/admin">Admin Paneli</a></li>
+                                        <li> <a href="contact.html">Bize Ulaşın</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="new">
+                                    <h3>Newsletter</h3>
+                                    <form class="newtetter">
+                                        <input class="tetter" placeholder="Mail Adresiniz" type="text" name="Your email">
+                                        <button class="submit">Abone Ol</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="copyright">
+                        <div class="container">
+                            <p></a></p>
+                        </div>
+                    </div>
+                </div>
+            </fooetr>
+            <!-- end footer -->
+
+        </div>
+    </div>
+    <div class="overlay"></div>
+    <!-- Javascript files-->
+    <script src="~/user/js/jquery.min.js"></script>
+    <script src="~/user/js/popper.min.js"></script>
+    <script src="~/user/js/bootstrap.bundle.min.js"></script>
+    <script src="~/user/js/owl.carousel.min.js"></script>
+    <script src="~/user/js/custom.js"></script>
+    <script src="~/user/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script src="~/user/js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+
+    <style>
+        #owl-demo .item {
+            margin: 3px;
+        }
+
+            #owl-demo .item img {
+                display: block;
+                width: 100%;
+                height: auto;
+            }
+    </style>
+
+
+    <script>
+        $(document).ready(function () {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                margin: 10,
+                nav: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            })
+        })
+    </script>
+
+</body>
+
+</html>

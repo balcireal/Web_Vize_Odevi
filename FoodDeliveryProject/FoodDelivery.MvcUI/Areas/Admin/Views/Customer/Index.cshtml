@@ -1,0 +1,233 @@
+﻿@using FoodDelivery.MvcUI.Areas.Admin.Models
+
+@model List<CustomerItem>
+
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@section customStyles{
+    <link rel="stylesheet" href="~/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section customScripts{
+    <script src="~/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#example1").DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/tr.json',
+                },
+                order: [
+                    [2, 'desc']
+                ],
+                "columnDefs": [{
+                    "targets": 0,
+                    "orderable": false,
+                },
+                {
+                    "targets": 1,
+                    "orderable": true,
+                },
+                {
+                    "targets": 2,
+                    "orderable": true,
+                },
+                {
+                    "targets": 3,
+                    "orderable": true,
+                },
+                {
+                    "targets": 4,
+                    "orderable": true,
+                }, {
+                    "targets": 5,
+                    "orderable": false,
+                }, {
+                    "targets": 6,
+                    "orderable": false,
+                }
+                ],
+                "lengthChange": false,
+                "paging": false,
+                "buttons": ["excel", "pdf"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+            $("#btnSave").click(function () {
+                // NOT : Client'dan server a javascript kullanarak dosya transferi yapacaksınız, ilgili dosya verisini FormData isim javascript nesnesi içerisinde sunucuya transfer etmelisiniz. Transfer edilecek data, FormData nesnesi içerisine append edilerek eklenir.
+                // NOT : Client'dan server'a FormData ile veriyi taşırken ajax tablebine aş parametreler de eklenmelidir:
+                //contentType: false,
+                //processData: false,
+
+                var file = $("#fuCustomerPhoto").get(0).files[0];
+
+                var formData = new FormData();
+                formData.append("customerPhoto", file);
+                formData.append("customerName", $("#txtCustomerName").val());
+                formData.append("customerLastName", $("#txtCustomerLastName").val());
+                formData.append("customerPhone", $("#txtCustomerPhone").val());
+                formData.append("customerCity", $("#txtCustomerCity").val());
+
+                $.ajax({
+                    url: "/Admin/Customer/Save",
+                    method: "post",
+                    datatype: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            alert("İşlem Başarılı. " + response.message);
+                        }
+                        else {
+                            alert("İşlem Başarısız. " + response.message);
+                        }
+                    }
+                })
+
+            });
+
+
+        });
+    </script>
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">Müşteri Yönetimi</h3>
+                <ul class="nav nav-pills ml-auto p-2">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Liste</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Yeni</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th># </th>
+                                    <th>Adı </th>
+                                    <th>Soyadı</th>
+                                    <th>Telefon</th>
+                                    <th>Şehir</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                       @* <td>
+                                            @if (!string.IsNullOrEmpty(item.CustomerPicture))
+                                            {
+                                                <img src='@($"data:image/jpg;base64,{item.CustomerPicture}")' style="width:150px;" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Admin/noimage.jpeg" style="width:100px;" />
+                                            }
+
+                                        </td>*@
+
+                                        <td>
+                                            <img src='@item.PicturePath' style="width:250px;" />
+                                        </td>
+                                        <td>
+                                            @item.FirstName
+                                        </td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.Phone</td>
+                                        <td>@item.City</td>
+                                        
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th># </th>
+                                    <th>Adı </th>
+                                    <th>Soyadı</th>
+                                    <th>Telefon</th>
+                                    <th>Şehir</th>
+                                    
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Yeni Müşteri Kayıt Formu</h3>
+                            </div>
+                            <form>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Adı</label>
+                                        <input type="text" class="form-control" id="txtCustomerName" placeholder="Müşteri Adı Giriniz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail2">Soyadı</label>
+                                        <input type="text" class="form-control" id="txtCustomerLastName" placeholder="Müşteri Soyadı Giriniz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail3">Telefon</label>
+                                        <input type="text" class="form-control" id="txtCustomerPhone" placeholder="Müşteri Telefon Giriniz">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail4">Şehir</label>
+                                        <input type="text" class="form-control" id="txtCustomerCity" placeholder="Müşteri Şehri Giriniz">
+                                    </div>
+                                   
+                                    
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Resim</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="fuCustomerPhoto">
+                                                <label class="custom-file-label" for="exampleInputFile">Dosya Seçiniz</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
+
+
